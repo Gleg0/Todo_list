@@ -13,8 +13,10 @@
 <body>
   <aside>
     <h3>Menu</h3>
-    <a href="{% url 'index' %}">Home</a>
-    <a href="{% url 'tag-list' %}">Tags</a>
+    <ul class="list-group">
+      <a href="{% url 'index' %}" class="btn list-group-item list-group-item-action">Home</a>
+      <a href="{% url 'tag-list' %}" class="btn list-group-item list-group-item-action">Tags</a>
+    </ul>
   </aside>
   <main>
     {% block content %}{% endblock %}
