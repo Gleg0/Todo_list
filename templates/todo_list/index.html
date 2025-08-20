@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Tasks</h2>
+  <a href="{% url 'task-add' %}" class="btn btn-success">Add Task</a>
+</div>
+
+<ul class="list-group">
+  {% for task in tasks %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        <strong {% if task.is_done %} style="text-decoration: line-through;" {% endif %}>
+          {{ task.content }}
+        </strong>
+        {% if task.deadline %}
+          <span class="badge bg-warning text-dark">{{ task.deadline|date:"Y-m-d H:i" }}</span>
+        {% endif %}
+        <br>
+        <small class="text-muted">
+          Status: {% if task.is_done %}
+            Done
+          {% else %}
+            Not done
+          {% endif %}
+        </small>
+        <br>
+        <br>
+        <small class="text-muted">Created: {{ task.created_at|date:"Y-m-d H:i" }}</small>
+        <br>
+        Tags:
+        {% for tag in task.tags.all %}
+          <span class="badge bg-info">{{ tag.name }}</span>
+        {% empty %}
+          <span class="text-muted">no tags</span>
+        {% endfor %}
+      </div>
+      <div>
+        <a href="{% url 'task-update' task.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+        <a href="{% url 'task-delete' task.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        <a href="{% url 'task-toggle' task.pk %}" class="btn btn-sm btn-outline-success">
+          {% if task.is_done %}Undo{% else %}Complete{% endif %}
+        </a>
+      </div>
+    </li>
+  {% empty %}
+    <li class="list-group-item text-muted">No tasks yet</li>
+  {% endfor %}
+</ul>
+{% endblock %}
